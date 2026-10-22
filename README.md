@@ -78,7 +78,8 @@ associated with `AUDIO_PLAYBACK`.
 
 The portable profile, approach modules, response estimator, control layout and
 EQ styles were extracted from Open YouTube Tools. The original project is
-unchanged. This folder is an independent Git repository with no configured remote.
+unchanged. This project is maintained in its own
+[GitHub repository](https://github.com/ivohtanev/web-api-equalizer).
 
 Chrome API references:
 [tabCapture](https://developer.chrome.com/docs/extensions/reference/api/tabCapture),
