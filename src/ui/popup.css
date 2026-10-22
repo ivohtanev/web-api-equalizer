@@ -1,0 +1,241 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  width: 464px;
+  color: #eee;
+  background: #272727;
+  font:
+    13px/1.4 system-ui,
+    sans-serif;
+  color-scheme: dark;
+}
+main {
+  padding: 12px;
+}
+[hidden] {
+  display: none !important;
+}
+button {
+  min-height: 34px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+button:focus-visible {
+  outline: 2px solid #a6e3c0;
+  outline-offset: -2px;
+}
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 7px;
+}
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+}
+.panel-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.scope {
+  color: #aaa;
+  font-size: 11px;
+  margin: 8px 0 0;
+}
+.eq-panel {
+  width: 440px;
+  max-height: none;
+}
+.eq-panel .panel-heading {
+  justify-content: space-between;
+}
+.eq-panel .panel-heading button {
+  border-color: #ffffff30;
+  padding: 4px 12px;
+}
+.eq-switch-control {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+}
+.eq-panel .panel-heading .eq-switch {
+  width: 42px;
+  height: 24px;
+  min-height: 24px;
+  padding: 2px;
+  border: 1px solid #ffffff50;
+  border-radius: 999px;
+  background: #555;
+}
+.eq-switch-thumb {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #eee;
+  transition: transform 150ms ease;
+}
+.eq-panel .panel-heading .eq-switch[aria-checked="true"] {
+  background: #8ab4f8;
+}
+.eq-switch[aria-checked="true"] .eq-switch-thumb {
+  background: #202124;
+  transform: translateX(18px);
+}
+.eq-bands {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 16px 0 8px;
+}
+.eq-approach {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+.eq-approach select {
+  width: 100%;
+  min-width: 0;
+  padding: 7px 8px;
+  border: 1px solid #ffffff30;
+  border-radius: 6px;
+  background: #242424;
+  color: #fff;
+  font: inherit;
+  color-scheme: dark;
+}
+.eq-approach select:focus-visible {
+  outline: 2px solid #a6e3c0;
+  outline-offset: 2px;
+}
+.eq-band {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.eq-preset-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.eq-presets {
+  display: flex;
+  flex: 1;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #ffffff12;
+  border-radius: 10px;
+  background: #ffffff06;
+}
+.eq-presets button {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 7px 5px;
+  color: #bdbdbd;
+}
+.eq-presets button[aria-pressed="true"] {
+  background: #8ab4f81c;
+  border-color: #8ab4f850;
+  color: #c9ddff;
+}
+.eq-presets button[data-customized="true"]::after {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #a6e3c0;
+}
+.eq-restore {
+  flex-shrink: 0;
+}
+.eq-restore:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.eq-preset-hint {
+  margin: 7px 0 0;
+  color: #aaa;
+  font-size: 10px;
+}
+.eq-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 11px;
+  border-top: 1px solid #ffffff12;
+  font-size: 10px;
+  color: #aaa;
+}
+.eq-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #b9c8e0;
+  white-space: nowrap;
+}
+.eq-credit svg {
+  width: 14px;
+  height: 14px;
+  color: #a6e3c0;
+}
+.eq-band input {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 24px;
+  max-width: 100%;
+  margin-inline: 0;
+  height: 130px;
+  accent-color: #8ab4f8;
+  cursor: pointer;
+}
+.eq-band input:focus-visible {
+  outline: 2px solid #a6e3c0;
+  outline-offset: 2px;
+}
+.eq-note {
+  max-width: 100%;
+  white-space: normal;
+  color: #bdbdbd;
+  font-size: 11px;
+  margin: 8px 0 0;
+}
+
+.eq-panel[data-enabled="true"] .panel-heading strong {
+  color: #a6e3c0;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
