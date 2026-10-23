@@ -58,17 +58,22 @@ async function handle(tabId: number, command: Command): Promise<Reply> {
   const saved = await chrome.storage.local.get(["profile", "approach"]);
   const profile = createEqualizerProfile(saved.profile);
   let approach = parseApproach(saved.approach);
-  if (command.type === "gain") profile.setGain(command.index, command.gain);
-  if (command.type === "preset") profile.select(command.preset);
-  if (command.type === "reset") profile.reset();
-  if (command.type === "approach") approach = parseApproach(command.approach);
+  let edited = false;
+  if (command.type === "gain")
+    edited = profile.setGain(command.index, command.gain);
+  if (command.type === "preset") edited = profile.select(command.preset);
+  if (command.type === "reset") edited = profile.reset();
+  if (command.type === "approach") {
+    approach = parseApproach(command.approach);
+    edited = true;
+  }
   const settings: Settings = { profile: profile.snapshot(), approach };
-  if (["gain", "preset", "reset", "approach"].includes(command.type)) {
+  if (edited) {
     await chrome.storage.local.set(settings);
     if (await hasAudioDocument()) await audio({ type: "update", settings });
   }
-  if (command.type === "enabled") {
-    if (command.enabled) {
+  if (command.type === "enabled" || edited) {
+    if (command.type !== "enabled" || command.enabled) {
       const tab = await chrome.tabs.get(tabId);
       if (!tab.url || !/^(https?|file):/i.test(tab.url))
         throw new Error(
