@@ -81,6 +81,49 @@ it("opening the popup does not capture and starts OFF", async () => {
   expect(reply.ok && reply.state.enabled).toBe(false);
   expect(api.tabCapture.getMediaStreamId).not.toHaveBeenCalled();
 });
+it.each<Command>([
+  { type: "gain", index: 0, gain: 3 },
+  { type: "preset", preset: "music" },
+  { type: "approach", approach: "response" },
+  { type: "reset" },
+])("automatically enables the edited tab for $type", async (command) => {
+  const reply = await request(1, command);
+  expect(reply.ok && reply.state.enabled).toBe(true);
+  expect(api.tabCapture.getMediaStreamId).toHaveBeenCalledExactlyOnceWith({
+    targetTabId: 1,
+  });
+  expect(api.runtime.sendMessage).toHaveBeenCalledWith(
+    expect.objectContaining({
+      command: expect.objectContaining({ type: "start", settings: saved }),
+    }),
+  );
+  expect((await request(2, { type: "state" })).ok).toBe(true);
+  expect(sessions.has(2)).toBe(false);
+  await request(1, { type: "gain", index: 1, gain: 4 });
+  expect(api.tabCapture.getMediaStreamId).toHaveBeenCalledOnce();
+  await request(1, { type: "enabled", enabled: false });
+  expect(sessions.has(1)).toBe(false);
+  await request(1, { type: "gain", index: 2, gain: 5 });
+  expect(sessions.has(1)).toBe(true);
+  expect(api.tabCapture.getMediaStreamId).toHaveBeenCalledTimes(2);
+});
+it("does not capture for invalid edits", async () => {
+  await request(1, { type: "gain", index: -1, gain: 3 });
+  await request(1, { type: "gain", index: 0, gain: NaN });
+  expect(api.tabCapture.getMediaStreamId).not.toHaveBeenCalled();
+});
+it("reports auto-activation failures without claiming ON and preserves edits", async () => {
+  api.tabCapture.getMediaStreamId.mockRejectedValueOnce(
+    new Error("Capture denied"),
+  );
+  expect(await request(1, { type: "gain", index: 0, gain: 5 })).toEqual({
+    ok: false,
+    error: "Capture denied",
+  });
+  const reply = await request(1, { type: "state" });
+  expect(reply.ok && reply.state.enabled).toBe(false);
+  expect(reply.ok && reply.state.gains[0]).toBe(5);
+});
 it("starts separate tab streams, reuses the offscreen document and releases only the disabled tab", async () => {
   await request(1, { type: "enabled", enabled: true });
   await request(1, { type: "enabled", enabled: true });
